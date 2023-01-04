@@ -1,6 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using PCTask.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddDbContext<PCTaskContext>();
 
 var app = builder.Build();
 
@@ -17,6 +21,10 @@ app.UseRouting();
 
 app.MapControllers();
 
-app.MapFallbackToFile("index.html"); ;
+app.MapFallbackToFile("index.html");
+
+// Apply existing migrations
+var dbContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<PCTaskContext>();
+dbContext.Database.Migrate();
 
 app.Run();
