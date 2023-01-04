@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PCTask.Data.Dtos;
 using PCTask.Data.Models;
+using PCTask.Data.Repositories;
 
 namespace PCTask.Controllers
 {
@@ -7,16 +9,22 @@ namespace PCTask.Controllers
     [Route("api/vehicles")]
     public class VehiclesController : ControllerBase
     {
+        private readonly IVehiclesRepository _vehiclesRepository;
+
+        public VehiclesController(IVehiclesRepository vehiclesRepository)
+        {
+            _vehiclesRepository = vehiclesRepository;
+        }
+
         // GET: /api/vehicles
         // Returns all vehicles
         [HttpGet]
         public async Task<IEnumerable<Vehicle>> GetAllVehicles()
         {
-            var vehicles = new List<Vehicle>
-            { 
-                new Vehicle { Make = "Volkswagen", Model = "Golf", Year = 2004, Engine = "1.9TDI" },
-                new Vehicle { Make = "Volkswagen", Model = "Golf", Year = 2008, Engine = "2.0TDI" }
-            };
+            var vehicles = await _vehiclesRepository.GetAll();
+
+            IEnumerable<VehicleDto> vehiclesDto =
+                vehicles.Select(x => new VehicleDto(x.Make, x.Model, x.Year, x.Engine));
 
             return vehicles;
         }
@@ -26,7 +34,8 @@ namespace PCTask.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Vehicle>> GetVehicle(int id)
         {
-            var vehicle = new Vehicle { Make = "Audi", Model = "A4", Year = 2000, Engine = "2.5TDI" };
+            var vehicle = await _vehiclesRepository.Get(id);
+            if (vehicle == null) return NotFound();
 
             return Ok(vehicle);
         }
@@ -34,11 +43,19 @@ namespace PCTask.Controllers
         // POST: /api/vehicles
         // Creates a new vehicle
         [HttpPost]
-        public async Task<ActionResult<Vehicle>> CreateVehicle()
+        public async Task<ActionResult<Vehicle>> CreateVehicle(CreateVehicleDto vehicleDto)
         {
-            var vehicle = new Vehicle { Make = "Audi", Model = "A6", Year = 2012, Engine = "3.0TDI" };
+            var newVehicle = new Vehicle
+            {
+                Make = vehicleDto.Make,
+                Model = vehicleDto.Model,
+                Year = vehicleDto.Year,
+                Engine = vehicleDto.Engine
+            };
 
-            return Created($"/api/vehicles/1", 1);
+            await _vehiclesRepository.Create(newVehicle);
+
+            return Created($"/api/vehicles/{newVehicle.Id}", newVehicle);
         }
     }
 }

@@ -1,10 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using PCTask.Data;
+using PCTask.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<PCTaskContext>();
+builder.Services.AddTransient<IVehiclesRepository, VehiclesRepository>();
 
 var app = builder.Build();
 
