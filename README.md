@@ -3,6 +3,9 @@
 The project uses a MSSQL database to store its data. Before running it, the connection string located in ```appsettings.json``` must be modified by changing the database name. Or just simply create a database with the current name (```pctask-db```) and you're good to go.
 Migrations are applied during runtime.
 
+## Running the project
+You can run it by simply launching it in **Visual Studio** or by running **```dotnet watch run```** in your preferred CLI. Both back-end and front-end apps will be launched.
+
 &nbsp;
 ## Task
 *The task required to create an API using **C#** and a front-end for it by using **React***
