@@ -18,3 +18,8 @@ code {
     max-width: 460px;
     margin: 4rem auto;
 }
+
+/* Details page */
+.bg-gray {
+    background-color: #F1F1F1;
+}

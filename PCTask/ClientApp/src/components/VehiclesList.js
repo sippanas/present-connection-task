@@ -2,17 +2,20 @@
 import { Link } from 'react-router-dom';
 import APIService from '../services/api.service';
 import * as Icon from 'react-bootstrap-icons';
+import LoadingListItem from './LoadingListItem';
 
 const VehiclesList = () => {
     const [vehicles, setVehicles] = useState([]);
+    const [contentLoaded, setContentLoaded] = useState(false);
 
     useEffect(() => {
         const getData = () =>
             APIService.getAllVehicles()
-                .then((data) => setVehicles(data))
-                .catch(() => {
-                    alert('A server error has occured');
-                });
+                .then((data) => {
+                    setVehicles(data);
+                    setContentLoaded(true);
+                })
+                .catch(() => alert('A server error has occured'));
 
         getData();
 
@@ -27,14 +30,13 @@ const VehiclesList = () => {
                 <Icon.CarFrontFill size={32} color="black" />
                 <div className="d-flex gap-1 w-100 justify-content-between">
                     <div className="my-auto mx-auto">
-                        <h6>Create new vehicle</h6>
+                        <h6>Add new vehicle</h6>
                     </div>
                 </div>
             </Link>
             {vehicles.map((v) => {
                 return (
-                    <Link to="/" path="relative"
-                        key={v.id}
+                    <Link key={v.id} to={`/vehicles/${v.id}/details`} path="relative"
                         className="list-group-item list-group-item-action d-flex gap-3 py-3"
                         aria-current="true">
                         <Icon.CarFrontFill size={32} color="black" />
@@ -44,8 +46,13 @@ const VehiclesList = () => {
                             </div>
                         </div>
                     </Link>
-                    )
+                );
             })}
+
+            {!contentLoaded &&
+                [...Array(3)].map((item, i) => {
+                    return <LoadingListItem key={i} />;
+                })}
         </div>
     );
 };
