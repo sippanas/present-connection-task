@@ -12,3 +12,9 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+/* Bootstrap list group */
+.list-group {
+    max-width: 460px;
+    margin: 4rem auto;
+}
