@@ -12,6 +12,7 @@ const VehiclesList = () => {
         const getData = () =>
             APIService.getAllVehicles()
                 .then((data) => {
+                    // need to remove catch and return a json in api-service?
                     setVehicles(data);
                     setContentLoaded(true);
                 })
@@ -24,7 +25,7 @@ const VehiclesList = () => {
     return (
         <div className="list-group w-auto my-4">
             <h1>Vehicles</h1>
-            <Link to="/" path="relative"
+            <Link to="/vehicles/create" path="relative"
                 className="list-group-item list-group-item-primary d-flex gap-3 py-3"
                 aria-current="true">
                 <Icon.CarFrontFill size={32} color="black" />

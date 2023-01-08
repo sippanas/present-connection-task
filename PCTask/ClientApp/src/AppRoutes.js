@@ -1,5 +1,6 @@
 import VehiclesList from './components/VehiclesList';
 import VehicleDetails from './components/VehicleDetails';
+import CreateVehicle from './components/CreateVehicle';
 
 const AppRoutes = [
     {
@@ -9,6 +10,10 @@ const AppRoutes = [
     {
         path: '/vehicles/:vehicleId/details',
         element: <VehicleDetails />
+    },
+    {
+        path: '/vehicles/create',
+        element: <CreateVehicle />
     }
 ];
 
