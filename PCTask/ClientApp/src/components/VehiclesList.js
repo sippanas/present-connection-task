@@ -20,8 +20,8 @@ const VehiclesList = () => {
     const [vehicles, setVehicles] = useState([]);
     const [contentLoaded, setContentLoaded] = useState(false);
     const [orderingDropdownOpen, setDropdownOpen] = useState(false);
-    const [paginationDetails, setPaginationDetails] = useState([]); // Pagination details from 
-    const [paginationParams, setPaginationParams] = useState({  // Pagination params sent from frontend
+    const [paginationDetails, setPaginationDetails] = useState([]); // Pagination details from backend
+    const [paginationParams, setPaginationParams] = useState({  // Pagination params sent from frontend to backend
         pageSize: `${searchParams.get('pageSize') != undefined ?
             searchParams.get('pageSize') : 5}`,
         pageNumber: `${searchParams.get('pageNumber') != undefined ?
