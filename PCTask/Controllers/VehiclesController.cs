@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PCTask.Data.Dtos;
 using PCTask.Data.Models;
 using PCTask.Data.Repositories;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace PCTask.Controllers
 {
@@ -26,15 +28,15 @@ namespace PCTask.Controllers
 
             var metadata = new
             {
-                vehicles.TotalCount,
-                vehicles.PageSize,
-                vehicles.CurrentPage,
-                vehicles.TotalPages,
-                vehicles.HasNext,
-                vehicles.HasPrevious
+                totalCount = vehicles.TotalCount,
+                pageSize = vehicles.PageSize,
+                currentPage = vehicles.CurrentPage,
+                totalPages = vehicles.TotalPages,
+                hasNext = vehicles.HasNext,
+                hasPrevious = vehicles.HasPrevious
             };
 
-            Response.Headers.Add("Pagination", JsonSerializer.Serialize(metadata));
+            Response.Headers.Add("Pagination", JsonConvert.SerializeObject(metadata));
 
             return vehicles;
         }
