@@ -10,7 +10,7 @@ const getAllVehicles = async (pageNumber, pageSize) => {
                 return {
                     status: response.status,
                     data: response.data,
-                    paginationDetails: response.headers.pagination
+                    paginationDetails: JSON.parse(response.headers.pagination)
                 };
             }
         })
