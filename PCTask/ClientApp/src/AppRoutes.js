@@ -14,6 +14,10 @@ const AppRoutes = [
     {
         path: '/vehicles/create',
         element: <CreateVehicle />
+    },
+    {
+        path: '*',
+        element: <h1 className="text-center">Oops! Looks like there is nothing here...</h1>
     }
 ];
 
