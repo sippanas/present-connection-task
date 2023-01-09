@@ -15,13 +15,13 @@ My implementation retrieves and stores vehicle data (Make, Model, Year, Engine)
 Extra tasks:
 - [x] Pagination
 - [ ] Filtering
-- [ ] Sorting
+- [x] Sorting
 
 &nbsp;
 ## API endpoints
-### Retrieve an amount of vehicle records based on paging parameters
+### Retrieve an amount of vehicle records based on parameters
 ```http
-GET https://localhost:7004/api/vehicles?pageNumber={x}&pageSize={y}
+GET https://localhost:7004/api/vehicles?pageNumber={x}&pageSize={y}&orderByField=Make&orderByAsc=true
 ```
 ### Retrieve a specific vehicle record based on ID
 ```http
