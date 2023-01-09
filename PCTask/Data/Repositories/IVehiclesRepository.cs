@@ -8,6 +8,6 @@ namespace PCTask.Data.Repositories
     {
         Task Create(Vehicle vehicle);
         Task<Vehicle> Get(int id);
-        Task<PagedList<Vehicle>> GetMany(VehiclePagingParameters vehiclePagingParameters);
+        Task<PagedList<Vehicle>> GetMany(VehicleQueryParameters vehiclePagingParameters);
     }
 }

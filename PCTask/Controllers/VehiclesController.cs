@@ -22,9 +22,9 @@ namespace PCTask.Controllers
         // GET: /api/vehicles?pageNumber=x&pageSize=y
         // Returns an amount of vehicles based on paging parameters
         [HttpGet]
-        public async Task<IEnumerable<Vehicle>> GetManyVehicles([FromQuery] VehiclePagingParameters vehiclePagingParameters)
+        public async Task<IEnumerable<Vehicle>> GetManyVehicles([FromQuery] VehicleQueryParameters vehicleQueryParameters)
         {
-            var vehicles = await _vehiclesRepository.GetMany(vehiclePagingParameters);
+            var vehicles = await _vehiclesRepository.GetMany(vehicleQueryParameters);
 
             var metadata = new
             {

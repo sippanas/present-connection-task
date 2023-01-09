@@ -1,5 +1,15 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { Button, ButtonGroup } from 'reactstrap';
+import {
+    Button,
+    ButtonGroup,
+    Dropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem,
+    FormGroup,
+    Input,
+    Label
+} from 'reactstrap';
 import { Link, useSearchParams } from 'react-router-dom';
 import APIService from '../services/api.service';
 import * as Icon from 'react-bootstrap-icons';
@@ -9,6 +19,7 @@ const VehiclesList = () => {
     const [searchParams] = useSearchParams();
     const [vehicles, setVehicles] = useState([]);
     const [contentLoaded, setContentLoaded] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
     const [paginationDetails, setPaginationDetails] = useState([]); // Pagination details from 
     const [paginationParams, setPaginationParams] = useState({  // Pagination params sent from frontend
         pageSize: `${searchParams.get('pageSize') != undefined ?
@@ -16,10 +27,14 @@ const VehiclesList = () => {
         pageNumber: `${searchParams.get('pageNumber') != undefined ?
             searchParams.get('pageNumber') : 1}`,
     });
+    const orderingFields = ["Make", "Model", "Year", "Engine"];
+    const [currentOrderField, setCurrentOrderField] = useState(orderingFields[0]);
+    const [orderingSwitch, setOrderingSwitch] = useState(true);
 
     useEffect(() => {
         const getData = () =>
-            APIService.getAllVehicles(paginationParams.pageNumber, paginationParams.pageSize)
+            APIService
+                .getAllVehicles(paginationParams.pageNumber, paginationParams.pageSize, currentOrderField, orderingSwitch)
                 .then((response) => {
                     if (response.status === 200) {
                         setVehicles(response.data);
@@ -33,7 +48,7 @@ const VehiclesList = () => {
 
         getData();
 
-    }, [paginationParams]);
+    }, [paginationParams, currentOrderField, orderingSwitch]);
 
     // Page navigation function
     // If 'next' is true, next page is selected
@@ -47,9 +62,47 @@ const VehiclesList = () => {
         setPaginationParams(params);
     };
 
+    const toggle = () => setDropdownOpen((prevState) => !prevState);
+
+    const onOrderingDropdownClicked = (value) => {
+        setCurrentOrderField(value);
+    };
+
     return (
         <div className="list-group w-auto my-4">
             <h1 className="d-flex justify-content-center">Vehicles</h1>
+            <hr />
+            <div className="d-flex justify-content-center align-items-center my-2 gap-3">
+                <ButtonGroup size="sm">
+                    <Button onClick={() => SelectPage(false)} disabled={!paginationDetails.hasPrevious}>
+                        {'<'}
+                    </Button>
+                    <Button disabled outline>
+                        {paginationDetails.currentPage}
+                    </Button>
+                    <Button onClick={() => SelectPage(true)} disabled={!paginationDetails.hasNext}>
+                        {'>'}
+                    </Button>
+                </ButtonGroup>
+                <Dropdown isOpen={dropdownOpen} toggle={toggle} direction="down">
+                    <DropdownToggle caret>Order by</DropdownToggle>
+                    <DropdownMenu className="dropdown-scroll">
+                        {orderingFields.map((value) => {
+                            return <DropdownItem key={value} onClick={() => onOrderingDropdownClicked(value)}>{value}</DropdownItem>
+                        })}
+                    </DropdownMenu>
+                </Dropdown>
+                <FormGroup switch>
+                    <Input
+                        type="switch"
+                        checked={orderingSwitch}
+                        onClick={() => {
+                            setOrderingSwitch(!orderingSwitch)
+                        }}
+                    />
+                    <Label check>Ascending ordering</Label>
+                </FormGroup>
+            </div>
             <hr />
             <Link to="/vehicles/create" path="relative"
                 className="list-group-item list-group-item-primary d-flex gap-3 py-3"
@@ -80,21 +133,6 @@ const VehiclesList = () => {
                 [...Array(3)].map((_, i) => {
                     return <LoadingListItem key={i} />;
                 })}
-
-            <hr />
-            <div className="d-flex justify-content-center my-2">
-                <ButtonGroup size="sm">
-                    <Button onClick={() => SelectPage(false)} disabled={!paginationDetails.hasPrevious}>
-                        {'<'}
-                    </Button>
-                    <Button disabled outline>
-                        {paginationDetails.currentPage}
-                    </Button>
-                    <Button onClick={() => SelectPage(true)} disabled={!paginationDetails.hasNext}>
-                        {'>'}
-                    </Button>
-                </ButtonGroup>
-            </div>
         </div>
     );
 };

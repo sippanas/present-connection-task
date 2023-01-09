@@ -3,8 +3,9 @@
 // Retrieves an amount of vehicle records from the API based on paging parameters
 // Returns: response status code, data, pagination header
 // 200 OK - vehicle record list
-const getAllVehicles = async (pageNumber, pageSize) => {
-    return await axios.get(`api/vehicles?pageNumber=${pageNumber}&pageSize=${pageSize}`)
+const getAllVehicles = async (pageNumber, pageSize, orderByField, orderByAsc) => {
+    return await axios
+        .get(`api/vehicles?pageNumber=${pageNumber}&pageSize=${pageSize}&orderByField=${orderByField}&orderByAsc=${orderByAsc}`)
         .then((response) => {
             if (response.status === 200) {
                 return {

@@ -15,12 +15,17 @@ namespace PCTask.Data.Repositories
         }
 
         // Retrieves an amount of records from the database based on paging parameters
-        public async Task<PagedList<Vehicle>> GetMany(VehiclePagingParameters vehiclePagingParameters)
+        public async Task<PagedList<Vehicle>> GetMany(VehicleQueryParameters vehicleQueryParameters)
         {
-            var queryable = _dbContext.Vehicles.AsQueryable();
+            var queryable = vehicleQueryParameters.OrderByAsc ? _dbContext.Vehicles
+                .OrderBy(x => EF.Property<object>(x, vehicleQueryParameters.OrderByField))
+                .AsQueryable() :
+                _dbContext.Vehicles
+                .OrderByDescending(x => EF.Property<object>(x, vehicleQueryParameters.OrderByField))
+                .AsQueryable();
 
-            return await PagedList<Vehicle>.CreatePagedListAsync(queryable, vehiclePagingParameters.PageNumber,
-                vehiclePagingParameters.PageSize);
+            return await PagedList<Vehicle>.CreatePagedListAsync(queryable, vehicleQueryParameters.PageNumber,
+                vehicleQueryParameters.PageSize);
         }
 
         // Retrieves a specific record from the database 
