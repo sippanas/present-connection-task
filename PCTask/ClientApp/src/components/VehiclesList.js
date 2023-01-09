@@ -11,12 +11,15 @@ const VehiclesList = () => {
     useEffect(() => {
         const getData = () =>
             APIService.getAllVehicles()
-                .then((data) => {
-                    // need to remove catch and return a json in api-service?
-                    setVehicles(data);
-                    setContentLoaded(true);
-                })
-                .catch(() => alert('A server error has occured'));
+                .then((response) => {
+                    if (response.status === 200) {
+                        setVehicles(response.data);
+                        setContentLoaded(true);
+                    }
+                    else {
+                        alert('A server error has occured');
+                    }
+                });
 
         getData();
 

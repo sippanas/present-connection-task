@@ -1,22 +1,28 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import * as Icon from 'react-bootstrap-icons';
 import APIService from '../services/api.service';
 
 const VehicleDetails = () => {
     const { vehicleId } = useParams();
+    const navigate = useNavigate();
     const [vehicle, setVehicle] = useState([]);
     const [vehicleLoaded, setVehicleLoaded] = useState(false);
 
     useEffect(() => {
         const getVehicle = (vehicleId) =>
             APIService.getSpecificVehicle(vehicleId)
-                .then((data) => {
-                    setVehicle(data);
-                    setVehicleLoaded(true);
-                })
-                .catch(() => alert('A server error has occured'));
+                .then((response) => {
+                    if (response.status === 200) {
+                        setVehicle(response.data);
+                        setVehicleLoaded(true);
+                    }
+                    else {
+                        alert('Vehicle seems to not exist, returning to vehicle list');
+                        navigate('/');
+                    }
+                });
 
         getVehicle(vehicleId);
 

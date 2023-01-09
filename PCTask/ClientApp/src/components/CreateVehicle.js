@@ -31,8 +31,8 @@ const CreateVehicle = () => {
         e.preventDefault();
 
         APIService.createVehicle(formValues.make, formValues.model, formValues.year, formValues.engine)
-            .then((created) => {
-                if (created === true) {
+            .then((response) => {
+                if (response.status === 201) {
                     navigate('/');
                 }
                 else {
