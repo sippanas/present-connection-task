@@ -1,13 +1,17 @@
 ﻿import axios from 'axios';
 
-// Retrieves all vehicle records from the API
-// Returns: response status code and data
+// Retrieves an amount of vehicle records from the API based on paging parameters
+// Returns: response status code, data, pagination header
 // 200 OK - vehicle record list
-const getAllVehicles = async () => {
-    return await axios.get('api/vehicles')
+const getAllVehicles = async (pageNumber, pageSize) => {
+    return await axios.get(`api/vehicles?pageNumber=${pageNumber}&pageSize=${pageSize}`)
         .then((response) => {
             if (response.status === 200) {
-                return { status: response.status, data: response.data };
+                return {
+                    status: response.status,
+                    data: response.data,
+                    paginationDetails: response.headers.pagination
+                };
             }
         })
         .catch((e) => {
@@ -37,11 +41,11 @@ const createVehicle = async (make, model, year, engine) => {
     return await axios.post('api/vehicles', { make, model, year, engine })
         .then((response) => {
             if (response.status === 201) {
-                return response.status;
+                return { status: response.status };
             }
         })
         .catch((e) => {
-            return e.response.status;
+            return { status: e.response.status };
         });
 };
 
