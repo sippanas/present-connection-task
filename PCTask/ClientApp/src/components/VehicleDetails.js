@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Spinner } from 'reactstrap';
+import { Spinner, UncontrolledTooltip } from 'reactstrap';
 import * as Icon from 'react-bootstrap-icons';
 import APIService from '../services/api.service';
 
@@ -37,12 +37,22 @@ const VehicleDetails = () => {
                 </div>
                 <hr />
                 <div className="d-flex justify-content-center gap-3 my-3">
-                    <Icon.Calendar4Event size={24} color="black" />
+                    <Icon.Calendar4Event id="DateIcon" size={24} color="black" />
                     <span>{vehicle.year}</span>
+                    <UncontrolledTooltip
+                        placement="left"
+                        target="DateIcon">
+                        Year
+                    </UncontrolledTooltip>
                 </div>
                 <div className="d-flex justify-content-center gap-3 my-2">
-                    <Icon.HeartFill size={24} color="black" />
+                    <Icon.HeartFill id="EngineIcon" size={24} color="black" />
                     <span>{vehicle.engine}</span>
+                    <UncontrolledTooltip
+                        placement="left"
+                        target="EngineIcon">
+                        Engine
+                    </UncontrolledTooltip>
                 </div>
             </div>
         </div>

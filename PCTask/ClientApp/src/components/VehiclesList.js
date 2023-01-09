@@ -19,7 +19,7 @@ const VehiclesList = () => {
     const [searchParams] = useSearchParams();
     const [vehicles, setVehicles] = useState([]);
     const [contentLoaded, setContentLoaded] = useState(false);
-    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [orderingDropdownOpen, setDropdownOpen] = useState(false);
     const [paginationDetails, setPaginationDetails] = useState([]); // Pagination details from 
     const [paginationParams, setPaginationParams] = useState({  // Pagination params sent from frontend
         pageSize: `${searchParams.get('pageSize') != undefined ?
@@ -84,7 +84,7 @@ const VehiclesList = () => {
                         {'>'}
                     </Button>
                 </ButtonGroup>
-                <Dropdown isOpen={dropdownOpen} toggle={toggle} direction="down">
+                <Dropdown isOpen={orderingDropdownOpen} toggle={toggle} direction="down">
                     <DropdownToggle caret>Order by</DropdownToggle>
                     <DropdownMenu className="dropdown-scroll">
                         {orderingFields.map((value) => {
@@ -96,7 +96,7 @@ const VehiclesList = () => {
                     <Input
                         type="switch"
                         checked={orderingSwitch}
-                        onClick={() => {
+                        onChange={() => {
                             setOrderingSwitch(!orderingSwitch)
                         }}
                     />
