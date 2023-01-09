@@ -12,15 +12,20 @@ You can run it by simply launching it in **Visual Studio** or by running **```do
 
 My implementation retrieves and stores vehicle data (Make, Model, Year, Engine)
 
+Extra tasks:
+- [x] Pagination
+- [ ] Filtering
+- [ ] Sorting
+
 &nbsp;
 ## API endpoints
-### Retrieve all vehicle records
+### Retrieve an amount of vehicle records based on paging parameters
 ```http
-GET https://localhost:7004/api/vehicles
+GET https://localhost:7004/api/vehicles?pageNumber={x}&pageSize={y}
 ```
 ### Retrieve a specific vehicle record based on ID
 ```http
-GET https://localhost:7004/api/vehicles/[id]
+GET https://localhost:7004/api/vehicles/{id}
 ```
 ### Create a new vehicle record
 ```http
