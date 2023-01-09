@@ -2,6 +2,7 @@
 using PCTask.Data.Dtos;
 using PCTask.Data.Models;
 using PCTask.Data.Repositories;
+using System.Text.Json;
 
 namespace PCTask.Controllers
 {
@@ -16,17 +17,26 @@ namespace PCTask.Controllers
             _vehiclesRepository = vehiclesRepository;
         }
 
-        // GET: /api/vehicles
-        // Returns all vehicles
+        // GET: /api/vehicles?pageNumber=x&pageSize=y
+        // Returns an amount of vehicles based on paging parameters
         [HttpGet]
-        public async Task<IEnumerable<Vehicle>> GetAllVehicles()
+        public async Task<IEnumerable<VehicleDto>> GetManyVehicles([FromQuery] VehiclePagingParameters vehiclePagingParameters)
         {
-            var vehicles = await _vehiclesRepository.GetAll();
+            var vehicles = await _vehiclesRepository.GetMany(vehiclePagingParameters);
 
-            IEnumerable<VehicleDto> vehiclesDto =
-                vehicles.Select(x => new VehicleDto(x.Make, x.Model, x.Year, x.Engine));
+            var metadata = new
+            {
+                vehicles.TotalCount,
+                vehicles.PageSize,
+                vehicles.CurrentPage,
+                vehicles.TotalPages,
+                vehicles.HasNext,
+                vehicles.HasPrevious
+            };
 
-            return vehicles;
+            Response.Headers.Add("Pagination", JsonSerializer.Serialize(metadata));
+
+            return vehicles.Select(x => new VehicleDto(x.Make, x.Model, x.Year, x.Engine));
         }
 
         // GET: /api/vehicles/1

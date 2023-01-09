@@ -27,7 +27,8 @@ const VehiclesList = () => {
 
     return (
         <div className="list-group w-auto my-4">
-            <h1>Vehicles</h1>
+            <h1 className="d-flex justify-content-center">Vehicles</h1>
+            <hr/>
             <Link to="/vehicles/create" path="relative"
                 className="list-group-item list-group-item-primary d-flex gap-3 py-3"
                 aria-current="true">

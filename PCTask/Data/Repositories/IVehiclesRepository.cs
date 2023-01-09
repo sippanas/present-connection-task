@@ -1,4 +1,6 @@
-﻿using PCTask.Data.Models;
+﻿using PCTask.Data.Dtos;
+using PCTask.Data.Models;
+using PCTask.Extensions;
 
 namespace PCTask.Data.Repositories
 {
@@ -6,6 +8,6 @@ namespace PCTask.Data.Repositories
     {
         Task Create(Vehicle vehicle);
         Task<Vehicle> Get(int id);
-        Task<IEnumerable<Vehicle>> GetAll();
+        Task<PagedList<Vehicle>> GetMany(VehiclePagingParameters vehiclePagingParameters);
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PCTask.Data.Dtos;
 using PCTask.Data.Models;
+using PCTask.Extensions;
 
 namespace PCTask.Data.Repositories
 {
@@ -12,10 +14,13 @@ namespace PCTask.Data.Repositories
             _dbContext = dbContext;
         }
 
-        // Retrieves all the records from the database
-        public async Task<IEnumerable<Vehicle>> GetAll()
+        // Retrieves an amount of records from the database based on paging parameters
+        public async Task<PagedList<Vehicle>> GetMany(VehiclePagingParameters vehiclePagingParameters)
         {
-            return await _dbContext.Vehicles.ToListAsync();
+            var queryable = _dbContext.Vehicles.AsQueryable();
+
+            return await PagedList<Vehicle>.CreatePagedListAsync(queryable, vehiclePagingParameters.PageNumber,
+                vehiclePagingParameters.PageSize);
         }
 
         // Retrieves a specific record from the database 
