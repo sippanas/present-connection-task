@@ -4,7 +4,7 @@ The project uses a MSSQL database to store its data. Before running it, the conn
 Migrations are applied during runtime.
 
 ## Running the project
-You can run it by simply launching it in **Visual Studio** or by running **```dotnet watch run```** in your preferred CLI. Both back-end and front-end apps will be launched.
+You can open the solution file in **Visual Studio** or by navigating to ```PCTask/``` and excecuting **```dotnet watch run```** in your preferred CLI. Both back-end and front-end apps will be launched.
 
 &nbsp;
 ## Task
@@ -19,8 +19,9 @@ Extra tasks:
 
 &nbsp;
 ## API endpoints
-### Retrieve an amount of vehicle records based on parameters
+### Retrieve an amount of vehicle records based on parameters (orderByField and orderByAsc are optional)
 ```http
+GET https://localhost:7004/api/vehicles?pageNumber={x}&pageSize={y}
 GET https://localhost:7004/api/vehicles?pageNumber={x}&pageSize={y}&orderByField=Make&orderByAsc=true
 ```
 ### Retrieve a specific vehicle record based on ID
