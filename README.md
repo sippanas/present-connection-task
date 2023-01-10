@@ -19,7 +19,7 @@ Extra tasks:
 
 &nbsp;
 ## API endpoints
-### Retrieve an amount of vehicle records based on parameters (parameters are optional, calling without them returns 10 records by default)
+### Retrieve an amount of vehicle records based on parameters (parameters are optional, calling without them returns 10 records per page by default)
 ```http
 GET https://localhost:7004/api/vehicles?pageNumber={x}&pageSize={y}&orderByField=Make&orderByAsc=true
 ```
